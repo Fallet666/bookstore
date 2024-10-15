@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(include)
 add_executable(bookstore src/main.cpp
         include/BookStore.h
-        src/BookStore.cpp)
+        src/BookStore.cpp
+        src/BookStoreUI.cpp
+        include/BookStoreUI.h
+        src/Book.cpp
+        include/Book.h)
 
 # Добавляем библиотеку SQLite3
 find_package(SQLite3 REQUIRED)

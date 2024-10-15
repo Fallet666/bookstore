@@ -1,4 +1,5 @@
 #include "BookStore.h"
+#include <stdexcept>
 
 BookStore::BookStore(const std::string& dbPath) {
     if(sqlite3_open(dbPath.c_str(), &db) != SQLITE_OK) {

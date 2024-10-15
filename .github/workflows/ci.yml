@@ -26,7 +26,9 @@ jobs:
           sudo apt-get install -y libsqlite3-dev
           sudo apt-get install -y libgtest-dev
           # Установка Google Test
-          cd /usr/src/gtest && sudo cmake . && sudo make && sudo cp libgtest*.a /usr/lib
+          cd /usr/src/gtest && sudo cmake . && sudo make
+          sudo cp libgtest.a /usr/lib
+          sudo cp libgtest_main.a /usr/lib
 
       # Шаг 3: Настраиваем и компилируем проект с помощью CMake
       - name: Build project

@@ -27,8 +27,8 @@ jobs:
           sudo apt-get install -y libgtest-dev
           # Установка Google Test
           cd /usr/src/gtest && sudo cmake . && sudo make
-          sudo cp libgtest.a /usr/lib
-          sudo cp libgtest_main.a /usr/lib
+          sudo cp lib/libgtest.a /usr/lib
+          sudo cp lib/libgtest_main.a /usr/lib
 
       # Шаг 3: Настраиваем и компилируем проект с помощью CMake
       - name: Build project

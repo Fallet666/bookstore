@@ -6,3 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(bookstore main.cpp
         BookStore.h
         BookStore.cpp)
+
+# Добавляем библиотеку SQLite3
+find_package(SQLite3 REQUIRED)
+target_link_libraries(bookstore SQLite::SQLite3)

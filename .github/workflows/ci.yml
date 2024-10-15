@@ -23,6 +23,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake clang-format
+          sudo apt-get install libsqlite3-dev
 
       # Шаг 3: Настраиваем и компилируем проект с помощью CMake
       - name: Build project

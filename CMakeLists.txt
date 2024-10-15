@@ -23,7 +23,6 @@ add_executable(tests tests/tests.cpp src/BookStore.cpp src/Book.cpp)
 # Добавляем библиотеку SQLite3
 find_package(SQLite3 REQUIRED)
 target_link_libraries(bookstore SQLite::SQLite3)
-target_link_libraries(tests SQLite::SQLite3)
-target_link_libraries(tests GTest::GTest GTest::Main)
+target_link_libraries(tests GTest::GTest GTest::Main SQLite::SQLite3)
 
 add_test(NAME BookStoreTests COMMAND tests)

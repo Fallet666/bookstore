@@ -23,8 +23,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake clang-format
-          sudo apt-get install libsqlite3-dev
-          sudo apt-get install libgtest-dev
+          sudo apt-get install -y libsqlite3-dev
+          sudo apt-get install -y libgtest-dev
+          # Установка Google Test
+          cd /usr/src/gtest && sudo cmake . && sudo make && sudo cp libgtest*.a /usr/lib
 
       # Шаг 3: Настраиваем и компилируем проект с помощью CMake
       - name: Build project
@@ -37,13 +39,11 @@ jobs:
       # Шаг 4: Запуск тестов
       - name: Run tests
         run: |
-          cmake -S . -B build
-          cmake --build build
           cd build
-          ctest
+          ctest --output-on-failure
 
       # Шаг 5: Проверка стиля кода (например, с использованием ClangFormat)
-#      - name: Check code style with ClangFormat
-#        run: |
-#          clang-format -i src/*.cpp
-#          git diff --exit-code
+      # - name: Check code style with ClangFormat
+      #   run: |
+      #     clang-format -i src/*.cpp
+      #     git diff --exit-code

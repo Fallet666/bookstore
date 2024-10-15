@@ -36,8 +36,10 @@ jobs:
       # Шаг 4: Запуск тестов
       - name: Run tests
         run: |
+          cmake -S . -B build
+          cmake --build build
           cd build
-          ctest --output-on-failure
+          ctest
 
       # Шаг 5: Проверка стиля кода (например, с использованием ClangFormat)
 #      - name: Check code style with ClangFormat

@@ -3,9 +3,8 @@
 BookStore::BookStore(const std::string& dbPath) {
     if(sqlite3_open(dbPath.c_str(), &db) != SQLITE_OK) {
         throw std::runtime_error("Не удалось открыть базу данных: " + std::string(sqlite3_errmsg(db)));
-
-        createTable();
     }
+    createTable();
 }
 
 BookStore::~BookStore() {

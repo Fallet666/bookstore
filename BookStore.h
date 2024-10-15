@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 #include <sqlite3.h>
-#include <stdexcept>
 
 class Book {
 public:
@@ -44,16 +43,16 @@ enum class SortType {
 
 class BookStore {
 private:
-    sqlite3* db;
+    sqlite3* db{};
 public:
     explicit BookStore(const std::string& dbPath);
     ~BookStore();
-    void createTable();
-    void addBook(const Book& book);
-    void removeBook(const std::string& title);
-    const Book* findBook(const std::string& title) const;
-    std::vector<Book> listBooks(SortType sortType) const;
-    std::vector<Book> findBooksInPriceRange(double minPrice, double maxPrice) const;
+    void createTable() const;
+    void addBook(const Book& book) const;
+    void removeBook(const std::string& title) const;
+    [[nodiscard]] const Book* findBook(const std::string& title) const;
+    [[nodiscard]] std::vector<Book> listBooks(SortType sortType) const;
+    [[nodiscard]] std::vector<Book> findBooksInPriceRange(double minPrice, double maxPrice) const;
 };
 
 

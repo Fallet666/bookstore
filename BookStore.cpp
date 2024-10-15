@@ -12,7 +12,7 @@ BookStore::~BookStore() {
     sqlite3_close(db);
 }
 
-void BookStore::createTable() {
+void BookStore::createTable() const{
     const char* sql = "CREATE TABLE IF NOT EXISTS books ("
                       "title TEXT PRIMARY KEY,"
                       "author TEXT,"
@@ -27,7 +27,7 @@ void BookStore::createTable() {
         throw std::runtime_error(errorMessage);
     }
 }
-void BookStore::addBook(const Book& book) {
+void BookStore::addBook(const Book& book) const{
     const char* sql = "INSERT INTO books (title, author, year, price) VALUES (?, ?, ?, ?);";
 
     sqlite3_stmt* stmt;
@@ -47,7 +47,7 @@ void BookStore::addBook(const Book& book) {
     sqlite3_finalize(stmt);
 }
 
-void BookStore::removeBook(const std::string& title) {
+void BookStore::removeBook(const std::string& title) const{
     const char* sql = "DELETE FROM books WHERE title = ?;";
     sqlite3_stmt* stmt;
     if(sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {

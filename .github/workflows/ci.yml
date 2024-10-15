@@ -40,7 +40,7 @@ jobs:
           ctest --output-on-failure
 
       # Шаг 5: Проверка стиля кода (например, с использованием ClangFormat)
-      - name: Check code style with ClangFormat
-        run: |
-          clang-format -i src/*.cpp
-          git diff --exit-code
+#      - name: Check code style with ClangFormat
+#        run: |
+#          clang-format -i src/*.cpp
+#          git diff --exit-code

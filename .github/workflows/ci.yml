@@ -1,0 +1,45 @@
+name: C++ CI
+
+# Триггер на каждый push или pull request в ветки main или dev
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Клонируем репозиторий
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Шаг 2: Устанавливаем необходимые зависимости (например, CMake, Clang)
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake clang-format
+
+      # Шаг 3: Настраиваем и компилируем проект с помощью CMake
+      - name: Build project
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      # Шаг 4: Запуск тестов
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure
+
+      # Шаг 5: Проверка стиля кода (например, с использованием ClangFormat)
+      - name: Check code style with ClangFormat
+        run: |
+          clang-format -i src/*.cpp
+          git diff --exit-code

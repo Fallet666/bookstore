@@ -13,12 +13,9 @@ add_executable(bookstore src/main.cpp
         tests/tests.cpp)
 
 enable_testing()
-include(FetchContent)
-FetchContent_Declare(
-        googletest
-        URL https://github.com/google/googletest/archive/release-1.11.0.zip
-)
-FetchContent_MakeAvailable(googletest)
+
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable(tests tests/tests.cpp src/BookStore.cpp src/Book.cpp)
 
@@ -27,6 +24,6 @@ add_executable(tests tests/tests.cpp src/BookStore.cpp src/Book.cpp)
 find_package(SQLite3 REQUIRED)
 target_link_libraries(bookstore SQLite::SQLite3)
 target_link_libraries(tests SQLite::SQLite3)
-target_link_libraries(tests gtest gtest_main)
+target_link_libraries(tests GTest::GTest GTest::Main)
 
 add_test(NAME BookStoreTests COMMAND tests)

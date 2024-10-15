@@ -6,7 +6,7 @@
 
 class BookStoreUI {
 private:
-    BookStore &store;
+    BookStore store;
 
     void handleAddBook() const;
 
@@ -21,7 +21,9 @@ private:
     static void printMenu();
 
 public:
-    explicit BookStoreUI(BookStore &store);
+    explicit BookStoreUI(const BookStore &store);
+
+    explicit BookStoreUI(const std::string &dbPath);
 
     void handleUserInput() const;
 };

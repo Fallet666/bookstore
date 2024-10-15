@@ -1,6 +1,9 @@
 #include "../include/BookStoreUI.h"
 
-BookStoreUI::BookStoreUI(BookStore &store) : store(store) {
+BookStoreUI::BookStoreUI(const BookStore &store) : store(store) {
+}
+
+BookStoreUI::BookStoreUI(const std::string &dbPath) : store(dbPath) {
 }
 
 void BookStoreUI::handleUserInput() const {

@@ -5,8 +5,11 @@ Book::Book(std::string _title, std::string _author, int _year, double _price)
 }
 
 std::string Book::getTitle() const { return title; }
+
 std::string Book::getAuthor() const { return author; }
+
 int Book::getYear() const { return year; }
+
 double Book::getPrice() const { return price; }
 
 bool Book::operator<(const Book &other) const {
@@ -18,6 +21,7 @@ bool Book::operator==(const Book &other) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const Book &book) {
-    os << "Title: " << book.title << ", Author: " << book.author << ", Price: " << book.price;
+    os << "Название: " << book.title << ", Автор: " << book.author << ", Год издания: " << book.year << ", Цена: " <<
+            book.price;
     return os;
 }

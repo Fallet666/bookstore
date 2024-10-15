@@ -115,10 +115,11 @@ std::vector<Book> BookStore::listBooks(SortType sortType) const {
     }
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
-        std::string title = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-        std::string author = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-        int year = sqlite3_column_int(stmt, 3);
-        double price = sqlite3_column_double(stmt, 4);
+        std::string title = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
+        std::string author = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+
+        int year = sqlite3_column_int(stmt, 2);
+        double price = sqlite3_column_double(stmt, 3);
         books.emplace_back(title, author, year, price);
     }
 

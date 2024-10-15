@@ -4,13 +4,20 @@ project(bookstore)
 set(CMAKE_CXX_STANDARD 17)
 include_directories(include)
 
-# Создаем исполняемый файл для вашего проекта
-add_executable(bookstore
-        src/main.cpp
+# Создаем библиотеку
+add_library(bookstore_lib
         src/BookStore.cpp
         src/BookStoreUI.cpp
         src/Book.cpp
 )
+
+# Создаем исполняемый файл для вашего проекта
+add_executable(bookstore
+        src/main.cpp
+)
+
+# Связываем исполняемый файл с библиотекой
+target_link_libraries(bookstore bookstore_lib)
 
 # Включаем тесты
 enable_testing()
@@ -21,11 +28,13 @@ include_directories(${GTEST_INCLUDE_DIRS})
 
 # Добавляем исполняемый файл для тестов
 add_executable(tests tests/tests.cpp)
-target_link_libraries(tests GTest::GTest GTest::Main)
+
+# Связываем тесты с библиотеками
+target_link_libraries(tests GTest::GTest GTest::Main bookstore_lib)
 
 # Добавляем библиотеку SQLite3
 find_package(SQLite3 REQUIRED)
-target_link_libraries(bookstore SQLite::SQLite3)
+target_link_libraries(bookstore_lib SQLite::SQLite3)
 target_link_libraries(tests SQLite::SQLite3)
 
 add_test(NAME BookStoreTests COMMAND tests)

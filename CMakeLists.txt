@@ -16,6 +16,10 @@ add_executable(bookstore
         src/main.cpp
 )
 
+target_compile_options(bookstore_lib PRIVATE -finput-charset=UTF-8 -fexec-charset=UTF-8)
+target_compile_options(bookstore PRIVATE -finput-charset=UTF-8 -fexec-charset=UTF-8)
+
+
 # Связываем исполняемый файл с библиотекой
 target_link_libraries(bookstore bookstore_lib)
 

@@ -13,14 +13,25 @@ BookStore::~BookStore() {
 }
 
 void BookStore::createTable() const {
-    const char *sql = "CREATE TABLE IF NOT EXISTS books ("
-            "title TEXT PRIMARY KEY,"
-            "author TEXT,"
-            "year INTEGER,"
-            "price REAL"
-            ");";
+    // Устанавливаем кодировку UTF-8 для базы данных
+    const char *setEncoding = "PRAGMA encoding = \"UTF-8\";";
 
     char *errMsg = nullptr;
+    // Устанавливаем кодировку UTF-8
+    if (sqlite3_exec(db, setEncoding, nullptr, nullptr, &errMsg) != SQLITE_OK) {
+        std::string errorMessage = "Ошибка установки кодировки: " + std::string(errMsg);
+        sqlite3_free(errMsg);
+        throw std::runtime_error(errorMessage);
+    }
+
+    // Создаем таблицу с полями
+    const char *sql = "CREATE TABLE IF NOT EXISTS books ("
+                      "title TEXT PRIMARY KEY,"
+                      "author TEXT,"
+                      "year INTEGER,"
+                      "price REAL"
+                      ");";
+
     if (sqlite3_exec(db, sql, nullptr, nullptr, &errMsg) != SQLITE_OK) {
         std::string errorMessage = "Ошибка создания таблицы: " + std::string(errMsg);
         sqlite3_free(errMsg);
@@ -36,8 +47,8 @@ void BookStore::addBook(const Book &book) const {
         throw std::runtime_error("Ошибка подготовки запроса: " + std::string(sqlite3_errmsg(db)));
     }
 
-    sqlite3_bind_text(stmt, 1, book.getTitle().c_str(), -1, SQLITE_STATIC);
-    sqlite3_bind_text(stmt, 2, book.getAuthor().c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, book.getTitle().c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, book.getAuthor().c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(stmt, 3, book.getYear());
     sqlite3_bind_double(stmt, 4, book.getPrice());
 
@@ -55,7 +66,7 @@ void BookStore::removeBook(const std::string &title) const {
         throw std::runtime_error("Ошибка подготовки запроса: " + std::string(sqlite3_errmsg(db)));
     }
 
-    sqlite3_bind_text(stmt, 1, title.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, title.c_str(), -1, SQLITE_TRANSIENT);
 
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         sqlite3_finalize(stmt);
@@ -75,7 +86,7 @@ const Book *BookStore::findBook(const std::string &title) const {
         throw std::runtime_error("Ошибка подготовки SQL-запроса: " + std::string(sqlite3_errmsg(db)));
     }
 
-    sqlite3_bind_text(stmt, 1, title.c_str(), -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 1, title.c_str(), -1, SQLITE_TRANSIENT);
 
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         std::string foundTitle = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));

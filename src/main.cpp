@@ -1,5 +1,5 @@
-#include "BookStoreUI.h"
 #include <string>
+#include "BookStoreUI.h"
 
 int main() {
     const std::string path = "../db/bookstore.db";

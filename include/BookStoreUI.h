@@ -1,8 +1,8 @@
 #ifndef BOOKSTOREUI_H
 #define BOOKSTOREUI_H
 
-#include "BookStore.h"
 #include <iostream>
+#include "BookStore.h"
 
 class BookStoreUI {
 private:
@@ -29,4 +29,4 @@ public:
 };
 
 
-#endif //BOOKSTOREUI_H
+#endif // BOOKSTOREUI_H

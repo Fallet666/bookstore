@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
 #include <cstdio>
+#include <gtest/gtest.h>
 #include "BookStore.h"
 
 class BookStoreTest : public ::testing::Test {
 protected:
-    BookStore* store = new BookStore("test.db");
+    BookStore *store = new BookStore("test.db");
 
     // Этот метод будет вызван перед каждым тестом
     void SetUp() override {

@@ -8,23 +8,18 @@ BookStore::BookStore(const std::string &dbPath) {
     createTable();
 }
 
-BookStore::~BookStore() {
-    sqlite3_close(db);
-}
+BookStore::~BookStore() { sqlite3_close(db); }
 
 void BookStore::createTable() const {
-    // Устанавливаем кодировку UTF-8 для базы данных
     const char *setEncoding = "PRAGMA encoding = \"UTF-8\";";
 
     char *errMsg = nullptr;
-    // Устанавливаем кодировку UTF-8
     if (sqlite3_exec(db, setEncoding, nullptr, nullptr, &errMsg) != SQLITE_OK) {
         std::string errorMessage = "Ошибка установки кодировки: " + std::string(errMsg);
         sqlite3_free(errMsg);
         throw std::runtime_error(errorMessage);
     }
 
-    // Создаем таблицу с полями
     const char *sql = "CREATE TABLE IF NOT EXISTS books ("
                       "title TEXT PRIMARY KEY,"
                       "author TEXT,"
@@ -102,8 +97,28 @@ const Book *BookStore::findBook(const std::string &title) const {
     throw std::runtime_error("Книга с названием \"" + title + "\" не найдена.");
 }
 
+int BookStore::getBookCount() const {
+    int count = 0;
+    std::string sql = "SELECT COUNT(*) FROM books;";
+    sqlite3_stmt *stmt;
+
+    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        throw std::runtime_error("Ошибка подготовки SQL-запроса: " + std::string(sqlite3_errmsg(db)));
+    }
+
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        count = sqlite3_column_int(stmt, 0);
+    }
+
+    sqlite3_finalize(stmt);
+
+    return count;
+}
+
 std::vector<Book> BookStore::listBooks(SortType sortType) const {
     std::string orderBy;
+    std::vector<Book> books;
+    books.reserve(getBookCount());
 
     switch (sortType) {
         case SortType::Title:
@@ -119,7 +134,6 @@ std::vector<Book> BookStore::listBooks(SortType sortType) const {
 
     std::string sql = "SELECT * FROM books ORDER BY " + orderBy + ";";
     sqlite3_stmt *stmt;
-    std::vector<Book> books;
 
     if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
         throw std::runtime_error("Ошибка подготовки SQL-запроса: " + std::string(sqlite3_errmsg(db)));
@@ -142,6 +156,7 @@ std::vector<Book> BookStore::findBooksInPriceRange(double minPrice, double maxPr
     const char *sql = "SELECT * FROM books WHERE price BETWEEN ? AND ?;";
     sqlite3_stmt *stmt;
     std::vector<Book> books;
+    books.reserve(getBookCount());
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
         throw std::runtime_error("Ошибка подготовки SQL-запроса: " + std::string(sqlite3_errmsg(db)));

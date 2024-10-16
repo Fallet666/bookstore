@@ -1,8 +1,8 @@
 #ifndef BOOK_H
 #define BOOK_H
 
-#include <string>
 #include <iostream>
+#include <string>
 
 
 class Book {
@@ -31,4 +31,4 @@ private:
 };
 
 
-#endif //BOOK_H
+#endif // BOOK_H

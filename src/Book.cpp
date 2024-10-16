@@ -1,7 +1,8 @@
 #include "../include/Book.h"
 
-Book::Book(std::string _title, std::string _author, int _year, double _price) :
-    title(std::move(_title)), author(std::move(_author)), year(_year), price(_price) {}
+Book::Book(std::string _title, std::string _author, int _year, double _price)
+    : title(std::move(_title)), author(std::move(_author)), year(_year),
+      price(_price) {}
 
 std::string Book::getTitle() const { return title; }
 
@@ -16,7 +17,7 @@ bool Book::operator<(const Book &other) const { return title < other.title; }
 bool Book::operator==(const Book &other) const { return title == other.title; }
 
 std::ostream &operator<<(std::ostream &os, const Book &book) {
-    os << "Название: " << book.title << ", Автор: " << book.author << ", Год издания: " << book.year
-       << ", Цена: " << book.price;
-    return os;
+  os << "Название: " << book.title << ", Автор: " << book.author
+     << ", Год издания: " << book.year << ", Цена: " << book.price;
+  return os;
 }

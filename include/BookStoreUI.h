@@ -1,32 +1,31 @@
 #ifndef BOOKSTOREUI_H
 #define BOOKSTOREUI_H
 
-#include <iostream>
 #include "BookStore.h"
+#include <iostream>
 
 class BookStoreUI {
 private:
-    BookStore store;
+  BookStore store;
 
-    void handleAddBook() const;
+  void handleAddBook() const;
 
-    void handleRemoveBook() const;
+  void handleRemoveBook() const;
 
-    void handleFindBook() const;
+  void handleFindBook() const;
 
-    void handleListBooks() const;
+  void handleListBooks() const;
 
-    void handleFindBooksInPriceRange() const;
+  void handleFindBooksInPriceRange() const;
 
-    static void printMenu();
+  static void printMenu();
 
 public:
-    explicit BookStoreUI(const BookStore &store);
+  explicit BookStoreUI(const BookStore &store);
 
-    explicit BookStoreUI(const std::string &dbPath);
+  explicit BookStoreUI(const std::string &dbPath);
 
-    void handleUserInput() const;
+  void handleUserInput() const;
 };
-
 
 #endif // BOOKSTOREUI_H

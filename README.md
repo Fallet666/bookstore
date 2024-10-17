@@ -72,7 +72,7 @@ mkdir build
 cd build
 cmake ..
 make
-./BookStoreApp
+./bookstore
 ```
 
 ---

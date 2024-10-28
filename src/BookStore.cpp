@@ -127,9 +127,10 @@ int BookStore::getBookCount() const {
   return count;
 }
 
-std::vector<Book> BookStore::listBooks(SortType sortType) const {
+std::vector<std::shared_ptr<Book>>
+BookStore::listBooks(SortType sortType) const {
   std::string orderBy;
-  std::vector<Book> books;
+  std::vector<std::shared_ptr<Book>> books;
   books.reserve(getBookCount());
 
   switch (sortType) {
@@ -160,18 +161,18 @@ std::vector<Book> BookStore::listBooks(SortType sortType) const {
 
     int year = sqlite3_column_int(stmt, 2);
     double price = sqlite3_column_double(stmt, 3);
-    books.emplace_back(title, author, year, price);
+    books.emplace_back(std::make_shared<Book>(title, author, year, price));
   }
 
   sqlite3_finalize(stmt);
   return books;
 }
 
-std::vector<Book> BookStore::findBooksInPriceRange(double minPrice,
-                                                   double maxPrice) const {
+std::vector<std::shared_ptr<Book>>
+BookStore::findBooksInPriceRange(double minPrice, double maxPrice) const {
   const char *sql = "SELECT * FROM books WHERE price BETWEEN ? AND ?;";
   sqlite3_stmt *stmt;
-  std::vector<Book> books;
+  std::vector<std::shared_ptr<Book>> books;
   books.reserve(getBookCount());
 
   if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
@@ -189,7 +190,7 @@ std::vector<Book> BookStore::findBooksInPriceRange(double minPrice,
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
     int year = sqlite3_column_int(stmt, 3);
     double price = sqlite3_column_double(stmt, 4);
-    books.emplace_back(title, author, year, price);
+    books.emplace_back(std::make_shared<Book>(title, author, year, price));
   }
 
   sqlite3_finalize(stmt);

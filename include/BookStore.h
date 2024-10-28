@@ -1,7 +1,6 @@
 #ifndef BOOKSTORE_H
 #define BOOKSTORE_H
 #include "Book.h"
-#include <random>
 #include <sqlite3.h>
 #include <vector>
 
@@ -25,10 +24,14 @@ public:
 
   [[nodiscard]] const Book *findBook(const std::string &title) const;
 
-  [[nodiscard]] std::vector<Book> listBooks(SortType sortType) const;
+  [[nodiscard]] std::vector<std::shared_ptr<Book>>
+  listBooks(SortType sortType) const;
 
-  [[nodiscard]] std::vector<Book> findBooksInPriceRange(double minPrice,
-                                                        double maxPrice) const;
+  [[nodiscard]] std::vector<std::shared_ptr<Book>>
+  findBooksInPriceRange(double minPrice, double maxPrice) const;
+
+  BookStore(const BookStore &) = delete;
+  BookStore &operator=(const BookStore &) = delete;
 };
 
 #endif // BOOKSTORE_H

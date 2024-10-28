@@ -1,7 +1,5 @@
 #include "../include/BookStoreUI.h"
 
-BookStoreUI::BookStoreUI(const BookStore &store) : store(store) {}
-
 BookStoreUI::BookStoreUI(const std::string &dbPath) : store(dbPath) {}
 
 void BookStoreUI::handleUserInput() const {
@@ -110,7 +108,7 @@ void BookStoreUI::handleListBooks() const {
   }
 
   try {
-    std::vector<Book> books = store.listBooks(sortType);
+    const std::vector<std::shared_ptr<Book>> books = store.listBooks(sortType);
     for (const auto &book : books) {
       std::cout << book << std::endl;
     }
@@ -127,7 +125,7 @@ void BookStoreUI::handleFindBooksInPriceRange() const {
   std::cin >> maxPrice;
 
   try {
-    std::vector<Book> books = store.findBooksInPriceRange(minPrice, maxPrice);
+    const std::vector<std::shared_ptr<Book>> books = store.findBooksInPriceRange(minPrice, maxPrice);
     for (const auto &book : books) {
       std::cout << book << std::endl;
     }

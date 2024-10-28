@@ -6,7 +6,8 @@
 
 class Book {
 public:
-  Book(std::string _title, std::string _author, int _year, double _price);
+  explicit Book(std::string _title, std::string _author, int _year,
+                double _price);
 
   [[nodiscard]] std::string getTitle() const;
 
@@ -21,6 +22,9 @@ public:
   bool operator==(const Book &other) const;
 
   friend std::ostream &operator<<(std::ostream &os, const Book &book);
+
+  Book(const Book &) = delete;
+  Book &operator=(const Book &) = delete;
 
 private:
   std::string title;

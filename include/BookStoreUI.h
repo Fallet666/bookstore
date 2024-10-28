@@ -21,11 +21,9 @@ private:
   static void printMenu();
 
 public:
-  explicit BookStoreUI(const BookStore &store);
-
   explicit BookStoreUI(const std::string &dbPath);
 
   void handleUserInput() const;
 };
 
-#endif // BOOKSTOREUI_H
+#endif

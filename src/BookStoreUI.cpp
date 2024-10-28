@@ -125,7 +125,8 @@ void BookStoreUI::handleFindBooksInPriceRange() const {
   std::cin >> maxPrice;
 
   try {
-    const std::vector<std::shared_ptr<Book>> books = store.findBooksInPriceRange(minPrice, maxPrice);
+    const std::vector<std::shared_ptr<Book>> books =
+        store.findBooksInPriceRange(minPrice, maxPrice);
     for (const auto &book : books) {
       std::cout << book << std::endl;
     }

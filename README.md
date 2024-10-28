@@ -49,10 +49,10 @@ sudo apt-get install -y cmake clang-format
 Установка sqlite
 ```bash
 sudo apt-get install -y libsqlite3-dev
-sudo apt-get install -y libgtest-dev
 ```
 Установка Google Test
 ```bash
+sudo apt-get install -y libgtest-dev
 cd /usr/src/gtest && sudo cmake . && sudo make
 sudo cp lib/libgtest.a /usr/lib
 sudo cp lib/libgtest_main.a /usr/lib
@@ -72,7 +72,7 @@ mkdir build
 cd build
 cmake ..
 make
-./BookStoreApp
+./bookstore
 ```
 
 ---
